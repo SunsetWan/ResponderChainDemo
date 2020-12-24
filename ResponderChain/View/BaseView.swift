@@ -73,23 +73,43 @@ class BaseView: UIView {
 }
 
 extension BaseView {
+    
+    @objc func myCustomMethod() {
+        print("BaseView-Rocks! on \(nameText!)")
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        super.touchesBegan(touches, with: event)
         print("===========================")
         print("touchesBegan on \(color.description)")
+        super.touchesBegan(touches, with: event)
+//        print("next responder: \(next)")
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        super.touchesMoved(touches, with: event)
         print("touchesMoved on \(color.description)")
+        super.touchesMoved(touches, with: event)
     }
     
+    // The default implementation of touchesEnded method
+    // forwards the message up the responder chain.
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        super.touchesEnded(touches, with: event)
         print("touchesEnded on \(color.description)")
         print("===========================")
+        super.touchesEnded(touches, with: event)
+    }
+    
+//    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+//        print("Point: \(point) on \(color.description)")
+//        return super.point(inside: point, with: event)
+//    }
+}
+
+extension UIResponder {
+    func responderChain() -> String {
+        guard let next = next else {
+            return String(describing: self)
+        }
+        
+        return String(describing: self) + " -> " + next.responderChain()
     }
 }
