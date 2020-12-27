@@ -9,6 +9,18 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    var completionHandlers = [() -> Void]()
+    
+    var handler: () -> Void = {
+        print("This is escaping closure")
+    }
+    
+    func afterFinished(text: String, handler: @escaping () -> Void) {
+        print(text)
+//        handler()
+        completionHandlers.append(handler)
+    }
+    
     private let viewA = BaseView(nameText: "A", backgroundColor: .gray)
 //    private let viewB = BaseView(nameText: "B", backgroundColor: .pink)
     private let viewC = BaseView(nameText: "C", backgroundColor: .brown)
